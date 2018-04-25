@@ -6,8 +6,8 @@
     var expressed = attrArray[0];
 
 //Chart frame dimensions
-    var chartWidth = window.innerWidth * 0.50,
-        chartHeight = 500,
+    var chartWidth = window.innerWidth * 0.315,
+        chartHeight = 375,
         leftPadding = 50,
         rightPadding = 2,
         topBottomPadding = 10,
@@ -20,7 +20,7 @@
 //Create a scale to size bars proportionally to frame and for axis
         var yScale = d3.scaleLinear()
         .range([chartHeight, 0])
-        .domain([0, 900]);
+        .domain([0, 80000]);
     
 //Call setMap Function
     window.onload = setMap();
@@ -29,8 +29,8 @@
     function setMap() {
     
 //Map frame dimensions
-        var width = window.innerWidth * 0.44,
-            height = 500;
+        var width = window.innerWidth * 0.0,
+            height = 0;
             
 //Create new svg container for the map
         var map = d3.select("body")
@@ -52,7 +52,7 @@
 
 //Use queue to parallelize asynchronous data loading
         d3.queue()
-            .defer(d3.csv, "data/Breweries.csv")
+            .defer(d3.csv, "data/MedianIncome.csv")
             .defer(d3.json, "data/states.topojson")
             .await(callback);
     
@@ -275,29 +275,7 @@ function setChart(csvData, colorScale){
         
 }
 
-//Create dropdown from CSV Data
-function createDropdown(csvData){
-    var dropdown = d3.select("body")
-        .append("select")
-        .attr("class", "dropdown")
-        .on("change", function(){
-            changeAttribute(this.value, csvData)
-        });
 
-//Add initial option
-    var titleOption = dropdown.append("option")
-        .attr("class", "titleOption")
-        .attr("disabled", "true")
-        .text("Select Year");
-
-//Add attribute name options
-    var attrOptions = dropdown.selectAll("attrOptions")
-        .data(attrArray)
-        .enter()
-        .append("option")
-        .attr("value", function(d){ return d })
-        .text(function(d){ return d });
-    }
     
 function changeAttribute(attribute, csvData){
 //Change the expressed attribute
@@ -355,7 +333,7 @@ function highlight(props){
 
 //Highlight stroke
     var selected = d3.selectAll("." + props.STATE_ABBR)
-        .style("stroke", "lightgreen")
+        .style("stroke", "orange")
         .style("stroke-width", "4");
     setLabel(props);
 }
