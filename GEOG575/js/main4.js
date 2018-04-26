@@ -20,7 +20,7 @@
 //Create a scale to size bars proportionally to frame and for axis
         var yScale = d3.scaleLinear()
         .range([chartHeight, 0])
-        .domain([0, 80000]);
+        .domain([0,225]);
     
 //Call setMap Function
     window.onload = setMap();
@@ -52,7 +52,7 @@
 
 //Use queue to parallelize asynchronous data loading
         d3.queue()
-            .defer(d3.csv, "data/Breweries.csv")
+            .defer(d3.csv, "data/OLS.csv")
             .defer(d3.json, "data/states.topojson")
             .await(callback);
     
