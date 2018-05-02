@@ -297,8 +297,6 @@ function setChart(csvData, colorScale){
      updateChart(bars, csvData.length, colorScale);
         
 }
-
-//Set chart
 function setChart2(csvData2, colorScale2){
     //create a second svg element to hold the bar chart
     var chart2 = d3.select("body")
@@ -315,15 +313,15 @@ function setChart2(csvData2, colorScale2){
         .attr("transform", translate2);
 
 //Set bars for each province
-    var bars2 = chart2.selectAll(".bar")
+    var bars2 = chart2.selectAll(".bar2")
         .data(csvData2)
         .enter()
         .append("rect")
         .sort(function(a, b){
-            return b[expressed]-a[expressed]
+            return b[expressed2]-a[expressed2]
         })
         .attr("class", function(d){
-            return "bar " + d.STATE_ABBR;
+            return "bar2 " + d.STATE_ABBR;
         })
         .attr("width", chartInnerWidth2 / csvData2.length - 1)
         .on("mouseover", highlight)
@@ -335,7 +333,7 @@ function setChart2(csvData2, colorScale2){
     
 //Create a text element for the chart title
     var chartTitle2 = chart2.append("text")
-        .attr("x", 255)
+        .attr("x", 190)
         .attr("y", 25)
         .attr("class", "chartTitle2");
 
@@ -355,7 +353,8 @@ function setChart2(csvData2, colorScale2){
         .attr("width", chartInnerWidth2)
         .attr("height", chartInnerHeight2)
         .attr("transform", translate2);
-        
+
+
      updateChart2(bars2, csvData2.length, colorScale2);
         
 }
@@ -375,15 +374,15 @@ function setChart3(csvData3, colorScale3){
         .attr("transform", translate3);
 
 //Set bars for each province
-    var bars3 = chart3.selectAll(".bar")
+    var bars3 = chart3.selectAll(".bar3")
         .data(csvData3)
         .enter()
         .append("rect")
         .sort(function(a, b){
-            return b[expressed]-a[expressed]
+            return b[expressed3]-a[expressed3]
         })
         .attr("class", function(d){
-            return "bar " + d.STATE_ABBR;
+            return "bar3 " + d.STATE_ABBR;
         })
         .attr("width", chartInnerWidth3 / csvData3.length - 1)
         .on("mouseover", highlight)
@@ -395,7 +394,7 @@ function setChart3(csvData3, colorScale3){
     
 //Create a text element for the chart title
     var chartTitle3 = chart3.append("text")
-        .attr("x", 255)
+        .attr("x", 305)
         .attr("y", 25)
         .attr("class", "chartTitle3");
 
@@ -419,7 +418,6 @@ function setChart3(csvData3, colorScale3){
      updateChart3(bars3, csvData3.length, colorScale3);
         
 }
-
 function setChart4(csvData4, colorScale4){
     //create a second svg element to hold the bar chart
     var chart4 = d3.select("body")
@@ -436,15 +434,15 @@ function setChart4(csvData4, colorScale4){
         .attr("transform", translate4);
 
 //Set bars for each province
-    var bars4 = chart4.selectAll(".bar")
+    var bars4 = chart4.selectAll(".bar4")
         .data(csvData4)
         .enter()
         .append("rect")
         .sort(function(a, b){
-            return b[expressed]-a[expressed]
+            return b[expressed4]-a[expressed4]
         })
         .attr("class", function(d){
-            return "bar " + d.STATE_ABBR;
+            return "bar4 " + d.STATE_ABBR;
         })
         .attr("width", chartInnerWidth4 / csvData4.length - 1)
         .on("mouseover", highlight)
@@ -456,7 +454,7 @@ function setChart4(csvData4, colorScale4){
     
 //Create a text element for the chart title
     var chartTitle4 = chart4.append("text")
-        .attr("x", 255)
+        .attr("x", 245)
         .attr("y", 25)
         .attr("class", "chartTitle4");
 
@@ -477,8 +475,7 @@ function setChart4(csvData4, colorScale4){
         .attr("height", chartInnerHeight4)
         .attr("transform", translate4);
         
-     updateChart4(bars4, csvData4.length, colorScale4);
-        
+     updateChart4(bars4, csvData4.length, colorScale4);      
 }
 	
 //Create dropdown from CSV Data
@@ -508,10 +505,15 @@ function createDropdown(csvData,csvData2,csvData3,csvData4){
 function changeAttribute(attribute, csvData,csvData2,csvData3,csvData4){
 //Change the expressed attribute
     expressed = attribute;
-
+	expressed2 = attribute;
+	expressed3 = attribute;
+	expressed4 = attribute;
+	
 //Recreate the color scale
     var colorScale = makeColorScale(csvData);
-
+	var colorScale2 = makeColorScale(csvData2);
+	var colorScale3 = makeColorScale(csvData3);
+	var colorScale4 = makeColorScale(csvData4);
 //Recolor enumeration units
     var regions = d3.selectAll(".regions")
         .transition()
@@ -521,6 +523,37 @@ function changeAttribute(attribute, csvData,csvData2,csvData3,csvData4){
         });
 
    var bars = d3.selectAll(".bar")
+   //Re-sort bars
+        .sort(function(a, b){
+            return b[expressed] - a[expressed];
+        })
+        .transition()
+        .delay(function(d, i){
+            return i * 20
+        })
+        .duration(500);
+   var bars2 = d3.selectAll(".bar2")
+   //Re-sort bars
+        .sort(function(a, b){
+            return b[expressed] - a[expressed];
+        })
+        .transition()
+        .delay(function(d, i){
+            return i * 20
+        })
+        .duration(500);
+   var bars3 = d3.selectAll(".bar3")
+   //Re-sort bars
+        .sort(function(a, b){
+            return b[expressed] - a[expressed];
+        })
+        .transition()
+        .delay(function(d, i){
+            return i * 20
+        })
+        .duration(500);
+   var bars4 = d3.selectAll(".bar4")
+   
 //Re-sort bars
         .sort(function(a, b){
             return b[expressed] - a[expressed];
@@ -530,36 +563,12 @@ function changeAttribute(attribute, csvData,csvData2,csvData3,csvData4){
             return i * 20
         })
         .duration(500);
+	
 
-    updateChart(bars, csvData.length, colorScale);
-}
-function changeAttribute(attribute, csvData2){
-//Change the expressed attribute
-    expressed = attribute;
-
-//Recreate the color scale
-    var colorScale2 = makeColorScale(csvData2);
-
-//Recolor enumeration units
-    var regions2 = d3.selectAll(".regions")
-        .transition()
-        .duration(1000)
-        .style("fill", function(d){
-            return choropleth(d.properties, colorScale2)
-        });
-
-   var bars2 = d3.selectAll(".bar")
-//Re-sort bars
-        .sort(function(a, b){
-            return b[expressed] - a[expressed];
-        })
-        .transition()
-        .delay(function(d, i){
-            return i * 20
-        })
-        .duration(500);
-
-    updateChart2(bars2, csvData2.length, colorScale2);
+    updateChart(bars, csvData.length,colorScale);
+	updateChart2(bars2, csvData2.length,colorScale2);
+	updateChart3(bars3, csvData3.length,colorScale3);
+	updateChart4(bars4, csvData4.length,colorScale4);
 }
     
 function updateChart(bars, n, colorScale){
@@ -581,7 +590,7 @@ function updateChart(bars, n, colorScale){
 
 //Add text to chart title
     var chartTitle = d3.select(".chartTitle")
-        .text("Brewery count for each state in " + [expressed]);
+        .text("Brewery Count for Each State (" + [expressed] +")");
 }
 function updateChart2(bars2, n, colorScale2){
 //Position bars
@@ -590,10 +599,10 @@ function updateChart2(bars2, n, colorScale2){
         })
 //Size and resize bars
         .attr("height", function(d, i){
-            return 500 - yScale2(parseFloat(d[expressed]));
+            return 500 - yScale2(parseFloat(d[expressed2]));
         })
         .attr("y", function(d, i){
-            return yScale2(parseFloat(d[expressed])) + topBottomPadding2;
+            return yScale2(parseFloat(d[expressed2])) + topBottomPadding2;
         })
 //Color and recolor bars
         .style("fill", function(d){
@@ -602,7 +611,7 @@ function updateChart2(bars2, n, colorScale2){
 
 //Add text to chart title
     var chartTitle2 = d3.select(".chartTitle2")
-        .text("Expected Brewery Count in Each State");
+        .text("Expected Brewery Count for Each State (" + [expressed2] +")");
 }
 function updateChart3(bars3, n, colorScale3){
 //Position bars
@@ -611,10 +620,10 @@ function updateChart3(bars3, n, colorScale3){
         })
 //Size and resize bars
         .attr("height", function(d, i){
-            return 500 - yScale3(parseFloat(d[expressed]));
+            return 500 - yScale3(parseFloat(d[expressed3]));
         })
         .attr("y", function(d, i){
-            return yScale3(parseFloat(d[expressed])) + topBottomPadding3;
+            return yScale3(parseFloat(d[expressed3])) + topBottomPadding3;
         })
 //Color and recolor bars
         .style("fill", function(d){
@@ -623,9 +632,8 @@ function updateChart3(bars3, n, colorScale3){
 
 //Add text to chart title
     var chartTitle3 = d3.select(".chartTitle3")
-        .text("Gini Index for Each State ");
+        .text("Gini Index for Each State (" + [expressed3] +")");
 }
-
 function updateChart4(bars4, n, colorScale4){
 //Position bars
     bars4.attr("x", function(d, i){
@@ -633,10 +641,10 @@ function updateChart4(bars4, n, colorScale4){
         })
 //Size and resize bars
         .attr("height", function(d, i){
-            return 500 - yScale4(parseFloat(d[expressed]));
+            return 500 - yScale4(parseFloat(d[expressed4]));
         })
         .attr("y", function(d, i){
-            return yScale4(parseFloat(d[expressed])) + topBottomPadding4;
+            return yScale4(parseFloat(d[expressed4])) + topBottomPadding4;
         })
 //Color and recolor bars
         .style("fill", function(d){
@@ -645,8 +653,8 @@ function updateChart4(bars4, n, colorScale4){
 
 //Add text to chart title
     var chartTitle4 = d3.select(".chartTitle4")
-        .text("Median Income in Each State");
-}
+        .text("Median Income($) for Each State (" + [expressed4] + ")");
+	}  
 	
 //Highlight enumeration units and bars
 function highlight(props){
